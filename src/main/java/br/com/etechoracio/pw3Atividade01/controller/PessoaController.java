@@ -61,12 +61,23 @@ public class PessoaController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Pessoa> update(@PathVariable Integer id, @RequestBody Pessoa Pessoas) {
+	public ResponseEntity<Pessoa> update(@PathVariable Integer id, 
+			@RequestBody Pessoa update) {
+		
 		Optional<Pessoa> resultado = dao.findById(id);
+		
 		if (resultado.isPresent()) {
-			Pessoa Pessoa1 = resultado.get();
-			Pessoa1.setId(id);
-			dao.save(Pessoa1);
+			Pessoa pessoa1 = resultado.get();
+			pessoa1.setId(id);
+			pessoa1.setNome(update.getNome());
+			pessoa1.setSobrenome(update.getSobrenome());
+			pessoa1.setCpf(update.getCpf());
+			pessoa1.setTelefone(update.getTelefone());
+			pessoa1.setEmail(update.getEmail());
+			pessoa1.setEndereco(update.getEndereco());
+		
+			
+			dao.save(pessoa1);
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();

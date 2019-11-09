@@ -61,12 +61,14 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Pessoa> update(@PathVariable Integer id, @RequestBody Usuario Usuarios) {
+	public ResponseEntity<Pessoa> update(@PathVariable Integer id, @RequestBody Usuario update) {
 		Optional<Usuario> resultado = dao.findById(id);
 		if (resultado.isPresent()) {
-			Usuario usuarios = resultado.get();
-			usuarios.setId(id);
-			dao.save(usuarios);
+			Usuario usuario = resultado.get();
+			usuario.setId(id);
+			usuario.setUser(update.getUser());
+			usuario.setPass(update.getPass());
+			dao.save(usuario);
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
